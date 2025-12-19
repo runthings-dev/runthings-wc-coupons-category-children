@@ -90,7 +90,7 @@ class CouponsCategoryChildren
         ?>
 
         <p class="form-field">
-            <label for="<?php echo esc_attr(self::ALLOWED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Allowed categories (incl. children)', 'runthings-wc-coupons-category-children'); ?></label>
+            <label for="<?php echo esc_attr(self::ALLOWED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Product categories (incl. children)', 'runthings-wc-coupons-category-children'); ?></label>
             <select id="<?php echo esc_attr(self::ALLOWED_CATEGORIES_META_KEY); ?>" name="<?php echo esc_attr(self::ALLOWED_CATEGORIES_META_KEY); ?>[]" class="wc-enhanced-select" multiple="multiple" style="width: 50%;" data-placeholder="<?php esc_attr_e('Any category', 'runthings-wc-coupons-category-children'); ?>">
                 <?php
                 if ($categories && !is_wp_error($categories)) {
@@ -102,7 +102,7 @@ class CouponsCategoryChildren
             </select>
             <?php
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo wc_help_tip(__('Selected categories AND all their subcategories will be allowed. Cart must contain at least one product from these category trees.', 'runthings-wc-coupons-category-children'));
+            echo wc_help_tip(__('Product categories (including subcategories) that the coupon will be applied to, or that need to be in the cart in order for cart discounts to be applied.', 'runthings-wc-coupons-category-children'));
             ?>
         </p>
 
@@ -119,7 +119,7 @@ class CouponsCategoryChildren
             </select>
             <?php
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo wc_help_tip(__('Selected categories AND all their subcategories will be excluded. Coupon will be invalid if cart contains products from these category trees.', 'runthings-wc-coupons-category-children'));
+            echo wc_help_tip(__('Product categories (including subcategories) that the coupon will not be applied to, or that cannot be in the cart in order for cart discounts to be applied.', 'runthings-wc-coupons-category-children'));
             ?>
         </p>
 
