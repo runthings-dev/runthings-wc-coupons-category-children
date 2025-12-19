@@ -165,14 +165,14 @@ class CouponsCategoryChildren
         if (!empty($expanded_allowed)) {
             $has_allowed = !empty(array_intersect($cart_category_ids, $expanded_allowed));
             if (!$has_allowed) {
-                $this->throw_validation_error($coupon, 'allowed');
+                $this->throw_validation_error($coupon, 'allowed', $allowed_categories, $expanded_allowed);
             }
         }
 
         if (!empty($expanded_excluded)) {
             $has_excluded = !empty(array_intersect($cart_category_ids, $expanded_excluded));
             if ($has_excluded) {
-                $this->throw_validation_error($coupon, 'excluded');
+                $this->throw_validation_error($coupon, 'excluded', $excluded_categories, $expanded_excluded);
             }
         }
 
