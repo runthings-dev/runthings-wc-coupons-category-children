@@ -4,9 +4,11 @@ Restrict WooCommerce coupons by product categories, automatically including all 
 
 ## Description
 
-Coupons Category Children for WooCommerce extends the built-in WooCommerce coupon category restrictions by automatically including all subcategories when you select a parent category.
+Coupons Category Children for WooCommerce extends the built-in WooCommerce coupon category restrictions in two ways:
 
-With WooCommerce's default category restrictions, if you select "Clothing" as an allowed category, only products directly in "Clothing" will qualify - not products in "T-Shirts" or "Trousers" subcategories. This plugin solves that limitation.
+**Easier category selection:** Select a parent category and all its subcategories are automatically included. With WooCommerce's default restrictions, selecting "Clothing" only matches products directly in that category - not products in "T-Shirts" or "Trousers" subcategories. This plugin includes the entire category tree.
+
+**Future-proof coupons:** With default WooCommerce, if you add or reorganize subcategories, you must manually update every active coupon to include the new categories. This plugin stores the parent category selection and dynamically expands it at validation time - new subcategories are automatically included without editing existing coupons.
 
 ## Features
 
@@ -35,7 +37,11 @@ WooCommerce's built-in "Product categories" field only matches products directly
 
 ### Can I use both this plugin's fields and WooCommerce's built-in category fields?
 
-Yes, but they operate as separate restrictions (AND logic). If you use both, a coupon must pass both sets of rules. For simplicity, we recommend using one or the other on a given coupon.
+Not really. The built-in category check runs before custom plugin checks. They operate as separate restrictions (AND logic). If you use both, a coupon must first pass the built-in category rules, which isn't likely to contain the child categories.
+
+For simplicity, we recommend using one or the other on a given coupon.
+
+If you find that this is a blocking issue, please open an issue on the [GitHub repo](https://github.com/runthings-dev/runthings-wc-coupons-category-children/issues). Allowing per-category selection of "include children" or "only top-level" is on the potential features roadmap.
 
 ### What happens if I add new subcategories later?
 
