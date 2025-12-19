@@ -53,6 +53,8 @@ Customize the error message shown when a coupon fails category validation.
 * `$context` (array) - Contains:
   * `coupon` (WC_Coupon) - The coupon object being validated.
   * `type` (string) - Either 'allowed' or 'excluded' indicating which validation failed.
+  * `configured_category_ids` (array) - Term IDs selected in the coupon admin.
+  * `expanded_category_ids` (array) - All term IDs including children.
 
 #### Example
 
@@ -61,7 +63,8 @@ add_filter(
     'runthings_wc_coupons_category_children_error_message',
     function ($message, $context) {
         if ($context['type'] === 'allowed') {
-            return 'Sorry, this coupon only works with products from specific categories.';
+            $names = array_map(fn($id) => get_term($id)->name, $context['configured_category_ids']);
+            return 'This coupon requires products from: ' . implode(', ', $names);
         }
         return 'Sorry, this coupon cannot be used with some items in your cart.';
     },
