@@ -45,7 +45,6 @@ if (!defined('WPINC')) {
 
 class CouponsCategoryChildren
 {
-    const PLUGIN_VERSION = '1.0.0';
     const ALLOWED_CATEGORIES_META_KEY = 'runthings_wc_allowed_categories_with_children';
     const EXCLUDED_CATEGORIES_META_KEY = 'runthings_wc_excluded_categories_with_children';
 
@@ -213,11 +212,13 @@ class CouponsCategoryChildren
         return array_unique($expanded);
     }
 
-    private function throw_validation_error(WC_Coupon $coupon, string $type): void
+    private function throw_validation_error(WC_Coupon $coupon, string $type, array $configured_categories, array $expanded_categories): void
     {
         $error_context = [
             'coupon' => $coupon,
             'type' => $type,
+            'configured_category_ids' => $configured_categories,
+            'expanded_category_ids' => $expanded_categories,
         ];
 
         if ($type === 'allowed') {
