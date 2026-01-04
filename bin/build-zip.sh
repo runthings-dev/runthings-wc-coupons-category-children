@@ -8,6 +8,7 @@ BUILD_DIR="${PLUGIN_DIR}/build"
 DISTIGNORE="${PLUGIN_DIR}/.distignore"
 LANG_DIR="languages"
 POT_FILE="$LANG_DIR/$PLUGINSLUG.pot"
+RELEASE_BASE_DIR="/Users/matthewharris/rtp/rtpSoftware/WordPress"
 
 # That's all, stop editing! Happy building.
 
@@ -99,5 +100,18 @@ echo "Zip file created at ${BUILD_DIR}/${PLUGINSLUG}.zip"
 
 # Clean up the temporary directory
 cd "${PLUGIN_DIR}"
+
+# Extract version from plugin header
+VERSION=$(grep -m1 " \* Version:" "${PLUGIN_DIR}/${PLUGINSLUG}.php" | sed 's/.*Version: *//' | tr -d '[:space:]')
+
+# Copy zip to releases archive
+if [[ -n "$VERSION" ]]; then
+  RELEASE_DIR="${RELEASE_BASE_DIR}/${PLUGINSLUG}/releases/v${VERSION}"
+  echo "Copying zip to releases archive: ${RELEASE_DIR}/"
+  mkdir -p "${RELEASE_DIR}"
+  cp "${BUILD_DIR}/${PLUGINSLUG}.zip" "${RELEASE_DIR}/"
+else
+  echo "Warning: Could not extract version from plugin header, skipping release copy."
+fi
 
 echo "Build completed successfully."
