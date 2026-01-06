@@ -92,6 +92,7 @@ class CouponsCategoryChildren
         $categories = get_terms(['taxonomy' => 'product_cat', 'orderby' => 'name', 'hide_empty' => false]);
 
         echo '<div class="options_group">';
+        echo '<div class="hr-section hr-section-coupon_restrictions">' . esc_html__('And', 'runthings-wc-coupons-category-children') . '</div>';
         wp_nonce_field('runthings_save_category_children', 'runthings_category_children_nonce');
         ?>
 
