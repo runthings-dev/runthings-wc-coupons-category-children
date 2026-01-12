@@ -3,7 +3,7 @@ Contributors: runthingsdev
 Tags: woocommerce, coupons, categories, subcategories, restrictions
 Requires at least: 6.4
 Tested up to: 6.9
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -25,6 +25,7 @@ Coupons Category Children for WooCommerce extends the built-in WooCommerce coupo
 * Automatic subcategory inclusion - no need to manually select every child category
 * Works alongside WooCommerce's existing coupon restrictions
 * Customizable error messages via filter
+* AutomateWoo compatibility - category restrictions are copied when generating coupons from templates
 
 = How It Works =
 
@@ -57,6 +58,10 @@ If you find that this is a blocking issue, please open an issue on the [GitHub r
 
 They are automatically included! The plugin checks category relationships at validation time, so new subcategories are picked up immediately.
 
+= Does this work with AutomateWoo? =
+
+Yes! When AutomateWoo generates coupons from a template coupon, the category restrictions are automatically copied to the generated coupon.
+
 == Screenshots ==
 
 1. The category restriction fields in the coupon Usage restriction tab.
@@ -64,6 +69,9 @@ They are automatically included! The plugin checks category relationships at val
 3. A product from an excluded category shows no discount applied.
 
 == Changelog ==
+
+= 1.1.0 - 12th January 2026 =
+* Add compatibility with AutomateWoo coupon generation to clone custom meta fields
 
 = 1.0.2 - 6th January 2026 =
 * Fixed missing "And" separator in the coupon usage restriction panel to match WooCommerce core styling.
@@ -79,14 +87,14 @@ They are automatically included! The plugin checks category relationships at val
 
 == Upgrade Notice ==
 
+= 1.1.0 =
+Add compatibility with AutomateWoo coupon generation to clone custom meta fields.
+
 = 1.0.2 =
 Fixed missing "And" separator in the coupon usage restriction panel to match WooCommerce core styling.
 
 = 1.0.1 =
 Fixes fatal error that could occur when WooCommerce validates coupons during order processing.
-
-= 1.0.0 =
-Initial release of the plugin. No upgrade steps required.
 
 == Filters ==
 

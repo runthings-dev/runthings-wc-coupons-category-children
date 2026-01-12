@@ -17,6 +17,7 @@ Coupons Category Children for WooCommerce extends the built-in WooCommerce coupo
 * Automatic subcategory inclusion - no need to manually select every child category
 * Works alongside WooCommerce's existing coupon restrictions
 * Customizable error messages via filter
+* AutomateWoo compatibility - category restrictions are copied when generating coupons from templates
 
 ## How It Works
 
@@ -46,6 +47,10 @@ If you find that this is a blocking issue, please open an issue on the [GitHub r
 ### What happens if I add new subcategories later?
 
 They are automatically included! The plugin checks category relationships at validation time, so new subcategories are picked up immediately.
+
+### Does this work with AutomateWoo?
+
+Yes! When AutomateWoo generates coupons from a template coupon, the category restrictions are automatically copied to the generated coupon.
 
 ## Screenshots
 
@@ -91,6 +96,10 @@ add_filter(
 ```
 
 ## Changelog
+
+### 1.1.0 - 12th January 2026
+
+- Add compatibility with AutomateWoo coupon generation to clone custom meta fields
 
 ### 1.0.2 - 6th January 2026
 
