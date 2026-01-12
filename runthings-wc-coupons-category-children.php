@@ -44,6 +44,11 @@ if (!defined('WPINC')) {
     die;
 }
 
+define('RUNTHINGS_WC_CCC_URL', plugin_dir_url(__FILE__));
+define('RUNTHINGS_WC_CCC_DIR', plugin_dir_path(__FILE__));
+
+require_once RUNTHINGS_WC_CCC_DIR . 'lib/automatewoo-meta-copier.php';
+
 class CouponsCategoryChildren
 {
     const ALLOWED_CATEGORIES_META_KEY = 'runthings_wc_allowed_categories_with_children';
@@ -64,6 +69,8 @@ class CouponsCategoryChildren
 
         // Product-level validation (for percent/fixed_product coupons - controls which products get discounted)
         add_filter('woocommerce_coupon_is_valid_for_product', [$this, 'validate_coupon_for_product'], 10, 4);
+
+        new AutomateWooMetaCopier();
     }
 
     private function is_woocommerce_active(): bool
@@ -299,4 +306,3 @@ class CouponsCategoryChildren
 }
 
 new CouponsCategoryChildren();
-
