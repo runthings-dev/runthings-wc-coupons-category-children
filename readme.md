@@ -100,6 +100,11 @@ add_filter(
 
 ## Changelog
 
+### 1.2.0 - 15th January 2026
+
+- Added warning notice when conflicting WooCommerce category fields are set alongside plugin restrictions.
+- Fixed custom error messages not displaying for percentage and fixed product discount coupons.
+
 ### 1.1.0 - 12th January 2026
 
 - Add compatibility with AutomateWoo coupon generation to clone custom meta fields

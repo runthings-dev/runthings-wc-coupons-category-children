@@ -72,6 +72,10 @@ Yes! When AutomateWoo generates coupons from a template coupon, the category res
 
 == Changelog ==
 
+= 1.2.0 - 15th January 2026 =
+* Added warning notice when conflicting WooCommerce category fields are set alongside plugin restrictions.
+* Fixed custom error messages not displaying for percentage and fixed product discount coupons.
+
 = 1.1.0 - 12th January 2026 =
 * Add compatibility with AutomateWoo coupon generation to clone custom meta fields
 
@@ -89,14 +93,14 @@ Yes! When AutomateWoo generates coupons from a template coupon, the category res
 
 == Upgrade Notice ==
 
+= 1.2.0 =
+Adds conflict warning notice and fixes custom error messages for percentage/fixed product coupons.
+
 = 1.1.0 =
 Add compatibility with AutomateWoo coupon generation to clone custom meta fields.
 
 = 1.0.2 =
 Fixed missing "And" separator in the coupon usage restriction panel to match WooCommerce core styling.
-
-= 1.0.1 =
-Fixes fatal error that could occur when WooCommerce validates coupons during order processing.
 
 == Filters ==
 
