@@ -4,7 +4,7 @@
  * Plugin Name: Coupons Category Children for WooCommerce
  * Plugin URI: https://runthings.dev/wordpress-plugins/wc-coupons-category-children/
  * Description: Restrict coupons by product categories, automatically including all child/descendant categories.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: runthingsdev
  * Author URI: https://runthings.dev/
  * License: GPLv3 or later
@@ -39,7 +39,7 @@ if (!defined('WPINC')) {
     die;
 }
 
-define('RUNTHINGS_WC_CCC_VERSION', '1.1.0');
+define('RUNTHINGS_WC_CCC_VERSION', '1.2.0');
 define('RUNTHINGS_WC_CCC_URL', plugin_dir_url(__FILE__));
 define('RUNTHINGS_WC_CCC_DIR', plugin_dir_path(__FILE__));
 

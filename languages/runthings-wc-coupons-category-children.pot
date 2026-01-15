@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Coupons Category Children for WooCommerce 1.1.0\n"
+"Project-Id-Version: Coupons Category Children for WooCommerce 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-coupons-category-children\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-12T20:01:57+00:00\n"
+"POT-Creation-Date: 2026-01-15T17:25:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: runthings-wc-coupons-category-children\n"
@@ -39,42 +39,54 @@ msgstr ""
 msgid "https://runthings.dev/"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:85
-msgid "Coupons Category Children for WooCommerce requires WooCommerce to be active. Please install and activate WooCommerce."
-msgstr ""
-
-#: runthings-wc-coupons-category-children.php:102
+#: lib/Admin.php:58
 msgid "And"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:107
+#: lib/Admin.php:63
 msgid "Product categories (incl. children)"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:108
+#: lib/Admin.php:64
 msgid "Any category"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:119
+#: lib/Admin.php:75
 msgid "Product categories (and their subcategories) that the coupon will be applied to, or that need to be in the cart for cart discounts to be applied."
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:124
+#: lib/Admin.php:80
 msgid "Exclude categories (incl. children)"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:125
+#: lib/Admin.php:81
 msgid "No categories"
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:136
+#: lib/Admin.php:92
 msgid "Product categories (and their subcategories) that the coupon will not be applied to, or that cannot be in the cart for cart discounts to be applied."
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:295
+#: lib/Admin.php:99
+msgid "Conflicting category settings detected."
+msgstr ""
+
+#: lib/Admin.php:100
+msgid "You have both WooCommerce's built-in category fields and \"incl. children\" fields configured. These operate as AND logic - the coupon must pass both checks, which may cause unexpected results. We recommend using one or the other."
+msgstr ""
+
+#: lib/Admin.php:101
+msgid "Learn more"
+msgstr ""
+
+#: lib/Validator.php:178
 msgid "This coupon is not valid for the product categories in your cart."
 msgstr ""
 
-#: runthings-wc-coupons-category-children.php:297
+#: lib/Validator.php:179
 msgid "This coupon cannot be used with some product categories in your cart."
+msgstr ""
+
+#: runthings-wc-coupons-category-children.php:77
+msgid "Coupons Category Children for WooCommerce requires WooCommerce to be active. Please install and activate WooCommerce."
 msgstr ""
