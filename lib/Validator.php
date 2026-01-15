@@ -17,47 +17,35 @@ class Validator
     {
         add_filter('woocommerce_coupon_is_valid', [$this, 'validate_coupon_categories'], 10, 3);
         add_filter('woocommerce_coupon_is_valid_for_product', [$this, 'validate_coupon_for_product'], 10, 4);
+        add_filter('woocommerce_coupon_error', [$this, 'customize_coupon_error'], 10, 3);
     }
 
     /**
      * Cart-level validation for fixed_cart coupons.
+     * Product coupons are handled by validate_coupon_for_product + customize_coupon_error.
      */
     public function validate_coupon_categories(bool $is_valid, WC_Coupon $coupon, WC_Discounts $discounts): bool
     {
-        if (!$is_valid) {
+        if (!$is_valid || $coupon->is_type(wc_get_product_coupon_types())) {
             return $is_valid;
         }
 
-        if ($coupon->is_type(wc_get_product_coupon_types())) {
-            return $is_valid;
-        }
-
-        $allowed_categories = get_post_meta($coupon->get_id(), Plugin::ALLOWED_CATEGORIES_META_KEY, true);
-        $allowed_categories = is_array($allowed_categories) ? $allowed_categories : [];
-
-        $excluded_categories = get_post_meta($coupon->get_id(), Plugin::EXCLUDED_CATEGORIES_META_KEY, true);
-        $excluded_categories = is_array($excluded_categories) ? $excluded_categories : [];
-
-        if (empty($allowed_categories) && empty($excluded_categories)) {
+        $restrictions = $this->get_category_restrictions($coupon);
+        if (!$restrictions) {
             return $is_valid;
         }
 
         $cart_category_ids = $this->get_cart_category_ids();
 
-        $expanded_allowed = $this->expand_categories_with_children($allowed_categories);
-        $expanded_excluded = $this->expand_categories_with_children($excluded_categories);
-
-        if (!empty($expanded_allowed)) {
-            $has_allowed = !empty(array_intersect($cart_category_ids, $expanded_allowed));
-            if (!$has_allowed) {
-                $this->throw_validation_error($coupon, 'allowed', $allowed_categories, $expanded_allowed);
+        if (!empty($restrictions['expanded_allowed'])) {
+            if (empty(array_intersect($cart_category_ids, $restrictions['expanded_allowed']))) {
+                $this->throw_validation_error($coupon, 'allowed', $restrictions);
             }
         }
 
-        if (!empty($expanded_excluded)) {
-            $has_excluded = !empty(array_intersect($cart_category_ids, $expanded_excluded));
-            if ($has_excluded) {
-                $this->throw_validation_error($coupon, 'excluded', $excluded_categories, $expanded_excluded);
+        if (!empty($restrictions['expanded_excluded'])) {
+            if (!empty(array_intersect($cart_category_ids, $restrictions['expanded_excluded']))) {
+                $this->throw_validation_error($coupon, 'excluded', $restrictions);
             }
         }
 
@@ -71,35 +59,126 @@ class Validator
      */
     public function validate_coupon_for_product(bool $valid, WC_Product $product, WC_Coupon $coupon, $values): bool
     {
-        $allowed_categories = get_post_meta($coupon->get_id(), Plugin::ALLOWED_CATEGORIES_META_KEY, true);
-        $allowed_categories = is_array($allowed_categories) ? $allowed_categories : [];
-
-        $excluded_categories = get_post_meta($coupon->get_id(), Plugin::EXCLUDED_CATEGORIES_META_KEY, true);
-        $excluded_categories = is_array($excluded_categories) ? $excluded_categories : [];
-
-        if (empty($allowed_categories) && empty($excluded_categories)) {
+        $restrictions = $this->get_category_restrictions($coupon);
+        if (!$restrictions) {
             return $valid;
         }
 
-        $product_id = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+        $product_id = $product->get_parent_id() ?: $product->get_id();
         $product_cats = wc_get_product_cat_ids($product_id);
 
-        $expanded_allowed = $this->expand_categories_with_children($allowed_categories);
-        $expanded_excluded = $this->expand_categories_with_children($excluded_categories);
+        return $this->categories_pass_restrictions($product_cats, $restrictions);
+    }
 
-        if (!empty($expanded_allowed)) {
-            if (empty(array_intersect($product_cats, $expanded_allowed))) {
+    /**
+     * Customize error message for product coupons that fail due to our category restrictions.
+     * Only customizes if we can verify our restrictions actually caused the failure.
+     */
+    public function customize_coupon_error(string $err, int $err_code, WC_Coupon $coupon): string
+    {
+        if ($err_code !== \WC_Coupon::E_WC_COUPON_NOT_APPLICABLE) {
+            return $err;
+        }
+
+        $restrictions = $this->get_category_restrictions($coupon);
+        if (!$restrictions) {
+            return $err;
+        }
+
+        // Verify our restrictions actually caused the failure by re-checking cart products
+        if (!$this->did_our_restrictions_fail($restrictions)) {
+            return $err;
+        }
+
+        $type = !empty($restrictions['allowed']) ? 'allowed' : 'excluded';
+        return $this->get_error_message($coupon, $type, $restrictions);
+    }
+
+    /**
+     * Check if our category restrictions caused ALL products to fail.
+     * Returns true only if NO products pass our restrictions.
+     */
+    private function did_our_restrictions_fail(array $restrictions): bool
+    {
+        if (!WC()->cart) {
+            return false;
+        }
+
+        foreach (WC()->cart->get_cart() as $cart_item) {
+            $product_id = $cart_item['data']->get_parent_id() ?: $cart_item['data']->get_id();
+            $product_cats = wc_get_product_cat_ids($product_id);
+
+            if ($this->categories_pass_restrictions($product_cats, $restrictions)) {
+                // At least one product passes - we didn't cause the total failure
                 return false;
             }
         }
 
-        if (!empty($expanded_excluded)) {
-            if (!empty(array_intersect($product_cats, $expanded_excluded))) {
+        // No products passed our restrictions - we caused the failure
+        return true;
+    }
+
+    /**
+     * Get category restrictions for a coupon, with expanded children.
+     * Returns null if no restrictions configured.
+     */
+    private function get_category_restrictions(WC_Coupon $coupon): ?array
+    {
+        $allowed = get_post_meta($coupon->get_id(), Plugin::ALLOWED_CATEGORIES_META_KEY, true);
+        $allowed = is_array($allowed) ? $allowed : [];
+
+        $excluded = get_post_meta($coupon->get_id(), Plugin::EXCLUDED_CATEGORIES_META_KEY, true);
+        $excluded = is_array($excluded) ? $excluded : [];
+
+        if (empty($allowed) && empty($excluded)) {
+            return null;
+        }
+
+        return [
+            'allowed' => $allowed,
+            'excluded' => $excluded,
+            'expanded_allowed' => $this->expand_categories_with_children($allowed),
+            'expanded_excluded' => $this->expand_categories_with_children($excluded),
+        ];
+    }
+
+    /**
+     * Check if categories pass the allowed/excluded restrictions.
+     */
+    private function categories_pass_restrictions(array $category_ids, array $restrictions): bool
+    {
+        if (!empty($restrictions['expanded_allowed'])) {
+            if (empty(array_intersect($category_ids, $restrictions['expanded_allowed']))) {
                 return false;
             }
         }
 
-        return $valid;
+        if (!empty($restrictions['expanded_excluded'])) {
+            if (!empty(array_intersect($category_ids, $restrictions['expanded_excluded']))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get filtered error message for validation failures.
+     */
+    private function get_error_message(WC_Coupon $coupon, string $type, array $restrictions): string
+    {
+        $error_context = [
+            'coupon' => $coupon,
+            'type' => $type,
+            'configured_category_ids' => $type === 'allowed' ? $restrictions['allowed'] : $restrictions['excluded'],
+            'expanded_category_ids' => $type === 'allowed' ? $restrictions['expanded_allowed'] : $restrictions['expanded_excluded'],
+        ];
+
+        $default_message = $type === 'allowed'
+            ? __('This coupon is not valid for the product categories in your cart.', 'runthings-wc-coupons-category-children')
+            : __('This coupon cannot be used with some product categories in your cart.', 'runthings-wc-coupons-category-children');
+
+        return apply_filters('runthings_wc_coupons_category_children_error_message', $default_message, $error_context);
     }
 
     private function get_cart_category_ids(): array
@@ -136,26 +215,10 @@ class Validator
         return array_unique($expanded);
     }
 
-    private function throw_validation_error(WC_Coupon $coupon, string $type, array $configured_categories, array $expanded_categories): void
+    private function throw_validation_error(WC_Coupon $coupon, string $type, array $restrictions): void
     {
-        $error_context = [
-            'coupon' => $coupon,
-            'type' => $type,
-            'configured_category_ids' => $configured_categories,
-            'expanded_category_ids' => $expanded_categories,
-        ];
-
-        if ($type === 'allowed') {
-            $default_message = __('This coupon is not valid for the product categories in your cart.', 'runthings-wc-coupons-category-children');
-        } else {
-            $default_message = __('This coupon cannot be used with some product categories in your cart.', 'runthings-wc-coupons-category-children');
-        }
-
-        $error_message = apply_filters('runthings_wc_coupons_category_children_error_message', $default_message, $error_context);
-
-        wc_get_logger()->info('Coupon category children validation failed. Coupon: ' . $coupon->get_code() . ', Type: ' . $type, ['source' => 'runthings-wc-coupons-category-children']);
-
-        throw new Exception(esc_html($error_message));
+        $error_message = $this->get_error_message($coupon, $type, $restrictions);
+        throw new Exception(esc_html($error_message), WC_Coupon::E_WC_COUPON_INVALID_FILTERED);
     }
 }
 
