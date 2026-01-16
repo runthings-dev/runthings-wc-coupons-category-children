@@ -100,6 +100,12 @@ add_filter(
 
 ## Changelog
 
+### 1.3.0 - 16th January 2026
+
+- Plugin renamed from runthings-wc-coupons-category-children to runthings-category-children-coupons to comply with WordPress.org trademark guidelines.
+- Automatic migration of existing coupon settings to new meta key format on update.
+- Changed filter hook from `runthings_wc_coupons_category_children_error_message` to `runthings_category_children_coupons_error_message`.
+
 ### 1.2.0 - 15th January 2026
 
 - Added warning notice when conflicting WooCommerce category fields are set alongside plugin restrictions.

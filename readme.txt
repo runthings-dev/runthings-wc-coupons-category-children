@@ -72,6 +72,11 @@ Yes! When AutomateWoo generates coupons from a template coupon, the category res
 
 == Changelog ==
 
+= 1.3.0 - 16th January 2026 =
+* Plugin renamed from runthings-wc-coupons-category-children to runthings-category-children-coupons to comply with WordPress.org trademark guidelines.
+* Automatic migration of existing coupon settings to new meta key format on update.
+* Changed filter hook from runthings_wc_coupons_category_children_error_message to runthings_category_children_coupons_error_message.
+
 = 1.2.0 - 15th January 2026 =
 * Added warning notice when conflicting WooCommerce category fields are set alongside plugin restrictions.
 * Fixed custom error messages not displaying for percentage and fixed product discount coupons.
@@ -93,14 +98,14 @@ Yes! When AutomateWoo generates coupons from a template coupon, the category res
 
 == Upgrade Notice ==
 
+= 1.3.0 =
+Plugin renamed for WordPress.org compliance. Coupon settings auto-migrate. Filter hook renamed (old hook still works with deprecation notice).
+
 = 1.2.0 =
 Adds conflict warning notice and fixes custom error messages for percentage/fixed product coupons.
 
 = 1.1.0 =
 Add compatibility with AutomateWoo coupon generation to clone custom meta fields.
-
-= 1.0.2 =
-Fixed missing "And" separator in the coupon usage restriction panel to match WooCommerce core styling.
 
 == Filters ==
 
