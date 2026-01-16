@@ -1,10 +1,10 @@
-# Coupons Category Children for WooCommerce
+# Category Children Coupons for WooCommerce
 
 Restrict WooCommerce coupons by product categories, automatically including all child/descendant categories.
 
 ## Description
 
-Coupons Category Children for WooCommerce extends the built-in WooCommerce coupon category restrictions in two ways:
+Category Children Coupons for WooCommerce extends the built-in WooCommerce coupon category restrictions in two ways:
 
 **Easier category selection:** Select a parent category and all its subcategories are automatically included. With WooCommerce's default restrictions, selecting "Clothing" only matches products directly in that category - not products in "T-Shirts" or "Trousers" subcategories. This plugin includes the entire category tree.
 
@@ -25,7 +25,7 @@ When you select a category in the "Product categories (incl. children)" field, t
 
 ## Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/runthings-wc-coupons-category-children` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/runthings-category-children-coupons` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Go to Marketing > Coupons and edit or create a coupon.
 4. In the "Usage restriction" tab, you will see the new category fields with "(incl. children)" labels.
@@ -42,7 +42,7 @@ Not really. The built-in category check runs before custom plugin checks. They o
 
 For simplicity, we recommend using one or the other on a given coupon.
 
-If you find that this is a blocking issue, please open an issue on the [GitHub repo](https://github.com/runthings-dev/runthings-wc-coupons-category-children/issues). Allowing per-category selection of "include children" or "only top-level" is on the potential features roadmap.
+If you find that this is a blocking issue, please open an issue on the [GitHub repo](https://github.com/runthings-dev/runthings-category-children-coupons/issues). Allowing per-category selection of "include children" or "only top-level" is on the potential features roadmap.
 
 ### What happens if I add new subcategories later?
 
@@ -55,20 +55,20 @@ Yes! When AutomateWoo generates coupons from a template coupon, the category res
 ## Screenshots
 
 ### Category restriction fields
-![The category restriction fields in the coupon Usage restriction tab](https://raw.githubusercontent.com/runthings-dev/runthings-wc-coupons-category-children/master/.wordpress-org/screenshot-1.jpg)
+![The category restriction fields in the coupon Usage restriction tab](https://raw.githubusercontent.com/runthings-dev/runthings-category-children-coupons/master/.wordpress-org/screenshot-1.jpg)
 
 ### Valid coupon applied
-![A percentage coupon correctly applied only to products in the allowed category](https://raw.githubusercontent.com/runthings-dev/runthings-wc-coupons-category-children/master/.wordpress-org/screenshot-2.jpg)
+![A percentage coupon correctly applied only to products in the allowed category](https://raw.githubusercontent.com/runthings-dev/runthings-category-children-coupons/master/.wordpress-org/screenshot-2.jpg)
 
 ### Excluded category
-![A product from an excluded category shows no discount applied](https://raw.githubusercontent.com/runthings-dev/runthings-wc-coupons-category-children/master/.wordpress-org/screenshot-3.jpg)
+![A product from an excluded category shows no discount applied](https://raw.githubusercontent.com/runthings-dev/runthings-category-children-coupons/master/.wordpress-org/screenshot-3.jpg)
 
 ### Conflict warning
-![Warning notice when both WooCommerce's built-in and this plugin's category fields are used together](https://raw.githubusercontent.com/runthings-dev/runthings-wc-coupons-category-children/master/.wordpress-org/screenshot-4.jpg)
+![Warning notice when both WooCommerce's built-in and this plugin's category fields are used together](https://raw.githubusercontent.com/runthings-dev/runthings-category-children-coupons/master/.wordpress-org/screenshot-4.jpg)
 
 ## Filters
 
-### runthings_wc_coupons_category_children_error_message
+### runthings_category_children_coupons_error_message
 
 Customize the error message shown when a coupon fails category validation.
 
@@ -85,7 +85,7 @@ Customize the error message shown when a coupon fails category validation.
 
 ```php
 add_filter(
-    'runthings_wc_coupons_category_children_error_message',
+    'runthings_category_children_coupons_error_message',
     function ($message, $context) {
         if ($context['type'] === 'allowed') {
             $names = array_map(fn($id) => get_term($id)->name, $context['configured_category_ids']);
@@ -122,7 +122,7 @@ add_filter(
 * Initial release.
 * Allowed categories with automatic child inclusion.
 * Excluded categories with automatic child inclusion.
-* Filter `runthings_wc_coupons_category_children_error_message` for custom error messages.
+* Filter `runthings_category_children_coupons_error_message` for custom error messages.
 
 ## License
 
@@ -134,4 +134,8 @@ Built by Matthew Harris of runthings.dev, copyright 2025.
 
 Visit [runthings.dev](https://runthings.dev/) for more WordPress plugins and resources.
 
-Contribute or report issues at the [GitHub repository](https://github.com/runthings-dev/runthings-wc-coupons-category-children).
+Contribute or report issues at the [GitHub repository](https://github.com/runthings-dev/runthings-category-children-coupons).
+
+Icon - Discount by Gregor Cresnar, from Noun Project, [https://thenounproject.com/browse/icons/term/discount/](https://thenounproject.com/browse/icons/term/discount/) (CC BY 3.0)
+
+Icon - Tree view by Paweł Gleń, from Noun Project, [https://thenounproject.com/browse/icons/term/tree-view/](https://thenounproject.com/browse/icons/term/tree-view/) (CC BY 3.0)

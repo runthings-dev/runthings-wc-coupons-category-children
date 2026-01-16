@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: Coupons Category Children for WooCommerce
- * Plugin URI: https://runthings.dev/wordpress-plugins/wc-coupons-category-children/
+ * Plugin Name: Category Children Coupons for WooCommerce
+ * Plugin URI: https://runthings.dev/wordpress-plugins/category-children-coupons/
  * Description: Restrict coupons by product categories, automatically including all child/descendant categories.
  * Version: 1.2.0
  * Author: runthingsdev
@@ -12,7 +12,7 @@
  * Requires at least: 6.4
  * Requires PHP: 8.0
  * Requires Plugins: woocommerce
- * Text Domain: runthings-wc-coupons-category-children
+ * Text Domain: runthings-category-children-coupons
  * Domain Path: /languages
  */
 
@@ -33,15 +33,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-namespace Runthings\WCCouponsCategoryChildren;
+namespace Runthings\CategoryChildrenCoupons;
 
 if (!defined('WPINC')) {
     die;
 }
 
-define('RUNTHINGS_WC_CCC_VERSION', '1.2.0');
-define('RUNTHINGS_WC_CCC_URL', plugin_dir_url(__FILE__));
-define('RUNTHINGS_WC_CCC_DIR', plugin_dir_path(__FILE__));
+define('RUNTHINGS_CCC_VERSION', '1.2.0');
+define('RUNTHINGS_CCC_URL', plugin_dir_url(__FILE__));
+define('RUNTHINGS_CCC_DIR', plugin_dir_path(__FILE__));
 
 class Bootstrap
 {
@@ -57,16 +57,17 @@ class Bootstrap
             return;
         }
 
-        require_once RUNTHINGS_WC_CCC_DIR . 'lib/Plugin.php';
-        require_once RUNTHINGS_WC_CCC_DIR . 'lib/Admin.php';
-        require_once RUNTHINGS_WC_CCC_DIR . 'lib/Validator.php';
-        require_once RUNTHINGS_WC_CCC_DIR . 'lib/AutomateWooMetaCopier.php';
+        require_once RUNTHINGS_CCC_DIR . 'lib/Plugin.php';
+        require_once RUNTHINGS_CCC_DIR . 'lib/Admin.php';
+        require_once RUNTHINGS_CCC_DIR . 'lib/Validator.php';
+        require_once RUNTHINGS_CCC_DIR . 'lib/AutomateWooMetaCopier.php';
 
         new Plugin();
     }
 
     private function is_woocommerce_active(): bool
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core WP filter
         return in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')), true) ||
             (is_multisite() && array_key_exists('woocommerce/woocommerce.php', get_site_option('active_sitewide_plugins', [])));
     }
@@ -74,7 +75,7 @@ class Bootstrap
     public function admin_notice_wc_inactive(): void
     {
         echo '<div class="error"><p>';
-        esc_html_e('Coupons Category Children for WooCommerce requires WooCommerce to be active. Please install and activate WooCommerce.', 'runthings-wc-coupons-category-children');
+        esc_html_e('Category Children Coupons for WooCommerce requires WooCommerce to be active. Please install and activate WooCommerce.', 'runthings-category-children-coupons');
         echo '</p></div>';
     }
 }

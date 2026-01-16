@@ -1,6 +1,6 @@
 <?php
 
-namespace Runthings\WCCouponsCategoryChildren;
+namespace Runthings\CategoryChildrenCoupons;
 
 if (!defined('WPINC')) {
     die;

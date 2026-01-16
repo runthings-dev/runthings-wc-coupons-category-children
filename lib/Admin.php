@@ -1,6 +1,6 @@
 <?php
 
-namespace Runthings\WCCouponsCategoryChildren;
+namespace Runthings\CategoryChildrenCoupons;
 
 if (!defined('WPINC')) {
     die;
@@ -27,18 +27,18 @@ class Admin
         }
 
         wp_enqueue_script(
-            'runthings-wc-ccc-admin-conflict-notice',
-            RUNTHINGS_WC_CCC_URL . 'assets/js/admin-conflict-notice.js',
+            'runthings-ccc-admin-conflict-notice',
+            RUNTHINGS_CCC_URL . 'assets/js/admin-conflict-notice.js',
             ['jquery'],
-            RUNTHINGS_WC_CCC_VERSION,
+            RUNTHINGS_CCC_VERSION,
             true
         );
 
         wp_enqueue_style(
-            'runthings-wc-ccc-admin-conflict-notice',
-            RUNTHINGS_WC_CCC_URL . 'assets/css/admin-conflict-notice.css',
+            'runthings-ccc-admin-conflict-notice',
+            RUNTHINGS_CCC_URL . 'assets/css/admin-conflict-notice.css',
             [],
-            RUNTHINGS_WC_CCC_VERSION
+            RUNTHINGS_CCC_VERSION
         );
     }
 
@@ -55,13 +55,13 @@ class Admin
         $categories = get_terms(['taxonomy' => 'product_cat', 'orderby' => 'name', 'hide_empty' => false]);
 
         echo '<div class="options_group">';
-        echo '<div class="hr-section hr-section-coupon_restrictions">' . esc_html__('And', 'runthings-wc-coupons-category-children') . '</div>';
+        echo '<div class="hr-section hr-section-coupon_restrictions">' . esc_html__('And', 'runthings-category-children-coupons') . '</div>';
         wp_nonce_field('runthings_save_category_children', 'runthings_category_children_nonce');
         ?>
 
         <p class="form-field">
-            <label for="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Product categories (incl. children)', 'runthings-wc-coupons-category-children'); ?></label>
-            <select id="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>" name="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>[]" class="wc-enhanced-select" multiple="multiple" style="width: 50%;" data-placeholder="<?php esc_attr_e('Any category', 'runthings-wc-coupons-category-children'); ?>">
+            <label for="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Product categories (incl. children)', 'runthings-category-children-coupons'); ?></label>
+            <select id="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>" name="<?php echo esc_attr(Plugin::ALLOWED_CATEGORIES_META_KEY); ?>[]" class="wc-enhanced-select" multiple="multiple" style="width: 50%;" data-placeholder="<?php esc_attr_e('Any category', 'runthings-category-children-coupons'); ?>">
                 <?php
                 if ($categories && !is_wp_error($categories)) {
                     foreach ($categories as $cat) {
@@ -72,13 +72,13 @@ class Admin
             </select>
             <?php
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo wc_help_tip(__('Product categories (and their subcategories) that the coupon will be applied to, or that need to be in the cart for cart discounts to be applied.', 'runthings-wc-coupons-category-children'));
+            echo wc_help_tip(__('Product categories (and their subcategories) that the coupon will be applied to, or that need to be in the cart for cart discounts to be applied.', 'runthings-category-children-coupons'));
             ?>
         </p>
 
         <p class="form-field">
-            <label for="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Exclude categories (incl. children)', 'runthings-wc-coupons-category-children'); ?></label>
-            <select id="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>" name="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>[]" class="wc-enhanced-select" multiple="multiple" style="width: 50%;" data-placeholder="<?php esc_attr_e('No categories', 'runthings-wc-coupons-category-children'); ?>">
+            <label for="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>"><?php esc_html_e('Exclude categories (incl. children)', 'runthings-category-children-coupons'); ?></label>
+            <select id="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>" name="<?php echo esc_attr(Plugin::EXCLUDED_CATEGORIES_META_KEY); ?>[]" class="wc-enhanced-select" multiple="multiple" style="width: 50%;" data-placeholder="<?php esc_attr_e('No categories', 'runthings-category-children-coupons'); ?>">
                 <?php
                 if ($categories && !is_wp_error($categories)) {
                     foreach ($categories as $cat) {
@@ -89,16 +89,16 @@ class Admin
             </select>
             <?php
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo wc_help_tip(__('Product categories (and their subcategories) that the coupon will not be applied to, or that cannot be in the cart for cart discounts to be applied.', 'runthings-wc-coupons-category-children'));
+            echo wc_help_tip(__('Product categories (and their subcategories) that the coupon will not be applied to, or that cannot be in the cart for cart discounts to be applied.', 'runthings-category-children-coupons'));
             ?>
         </p>
 
 
             <div class="runthings-category-conflict-notice notice notice-warning inline" style="display: none;">
                 <p>
-                    <strong><?php esc_html_e('Conflicting category settings detected.', 'runthings-wc-coupons-category-children'); ?></strong>
-                    <?php esc_html_e('You have both WooCommerce\'s built-in category fields and "incl. children" fields configured. These operate as AND logic - the coupon must pass both checks, which may cause unexpected results. We recommend using one or the other.', 'runthings-wc-coupons-category-children'); ?>
-                    <a href="https://github.com/runthings-dev/runthings-wc-coupons-category-children#can-i-use-both-this-plugins-fields-and-woocommerces-built-in-category-fields" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Learn more', 'runthings-wc-coupons-category-children'); ?></a>
+                    <strong><?php esc_html_e('Conflicting category settings detected.', 'runthings-category-children-coupons'); ?></strong>
+                    <?php esc_html_e('You have both WooCommerce\'s built-in category fields and "incl. children" fields configured. These operate as AND logic - the coupon must pass both checks, which may cause unexpected results. We recommend using one or the other.', 'runthings-category-children-coupons'); ?>
+                    <a href="https://github.com/runthings-dev/runthings-category-children-coupons#can-i-use-both-this-plugins-fields-and-woocommerces-built-in-category-fields" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Learn more', 'runthings-category-children-coupons'); ?></a>
                 </p>
             </div>
 

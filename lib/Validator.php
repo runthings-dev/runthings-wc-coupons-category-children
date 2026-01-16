@@ -1,6 +1,6 @@
 <?php
 
-namespace Runthings\WCCouponsCategoryChildren;
+namespace Runthings\CategoryChildrenCoupons;
 
 use Exception;
 use WC_Coupon;
@@ -175,10 +175,10 @@ class Validator
         ];
 
         $default_message = $type === 'allowed'
-            ? __('This coupon is not valid for the product categories in your cart.', 'runthings-wc-coupons-category-children')
-            : __('This coupon cannot be used with some product categories in your cart.', 'runthings-wc-coupons-category-children');
+            ? __('This coupon is not valid for the product categories in your cart.', 'runthings-category-children-coupons')
+            : __('This coupon cannot be used with some product categories in your cart.', 'runthings-category-children-coupons');
 
-        return apply_filters('runthings_wc_coupons_category_children_error_message', $default_message, $error_context);
+        return apply_filters('runthings_category_children_coupons_error_message', $default_message, $error_context);
     }
 
     private function get_cart_category_ids(): array
@@ -218,6 +218,7 @@ class Validator
     private function throw_validation_error(WC_Coupon $coupon, string $type, array $restrictions): void
     {
         $error_message = $this->get_error_message($coupon, $type, $restrictions);
+        // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- WC constant is int exception code, not output
         throw new Exception(esc_html($error_message), WC_Coupon::E_WC_COUPON_INVALID_FILTERED);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Runthings\WCCouponsCategoryChildren;
+namespace Runthings\CategoryChildrenCoupons;
 
 if (!defined('WPINC')) {
     die;
@@ -8,8 +8,8 @@ if (!defined('WPINC')) {
 
 class Plugin
 {
-    public const ALLOWED_CATEGORIES_META_KEY = 'runthings_wc_allowed_categories_with_children';
-    public const EXCLUDED_CATEGORIES_META_KEY = 'runthings_wc_excluded_categories_with_children';
+    public const ALLOWED_CATEGORIES_META_KEY = 'runthings_ccc_allowed_categories_with_children';
+    public const EXCLUDED_CATEGORIES_META_KEY = 'runthings_ccc_excluded_categories_with_children';
 
     public function __construct()
     {

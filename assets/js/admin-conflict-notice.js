@@ -12,8 +12,8 @@
         wcAllowed: '#product_categories',
         wcExcluded: '#exclude_product_categories',
         // Plugin fields
-        pluginAllowed: '#runthings_wc_allowed_categories_with_children',
-        pluginExcluded: '#runthings_wc_excluded_categories_with_children',
+        pluginAllowed: '#runthings_ccc_allowed_categories_with_children',
+        pluginExcluded: '#runthings_ccc_excluded_categories_with_children',
         // Notice container class
         notice: '.runthings-category-conflict-notice'
     };
