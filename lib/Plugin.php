@@ -16,6 +16,7 @@ class Plugin
         new Admin();
         new Validator();
         new AutomateWooMetaCopier();
+        new Migrator();
     }
 }
 

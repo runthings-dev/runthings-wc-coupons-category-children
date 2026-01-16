@@ -61,6 +61,7 @@ class Bootstrap
         require_once RUNTHINGS_CCC_DIR . 'lib/Admin.php';
         require_once RUNTHINGS_CCC_DIR . 'lib/Validator.php';
         require_once RUNTHINGS_CCC_DIR . 'lib/AutomateWooMetaCopier.php';
+        require_once RUNTHINGS_CCC_DIR . 'lib/Migrator.php';
 
         new Plugin();
     }
