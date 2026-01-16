@@ -178,6 +178,17 @@ class Validator
             ? __('This coupon is not valid for the product categories in your cart.', 'runthings-category-children-coupons')
             : __('This coupon cannot be used with some product categories in your cart.', 'runthings-category-children-coupons');
 
+        // Deprecated filter - check if anyone is using it and apply with warning
+        $deprecated_hook = 'runthings_wc_coupons_category_children_error_message';
+        if (has_filter($deprecated_hook)) {
+            _deprecated_hook(
+                $deprecated_hook,
+                '1.3.0',
+                'runthings_category_children_coupons_error_message'
+            );
+            $default_message = apply_filters($deprecated_hook, $default_message, $error_context);
+        }
+
         return apply_filters('runthings_category_children_coupons_error_message', $default_message, $error_context);
     }
 
